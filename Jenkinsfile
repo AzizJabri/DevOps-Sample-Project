@@ -1,26 +1,29 @@
 pipeline {
-    agent {
-        docker { image "node:18-alpine"}
+    agent any
+    tools {
+        nodejs "node"
     }
+    environment {
+        CI = 'true'
+    }
+
     stages {
         stage('Build') {
-            environment {
-                HOME="."
-            }
             steps {
-                sh "npm install"
+                bat "npm install"
                 echo "Building ..."
             }
         }
         stage('Test') {
             steps {
-                sh "npm test"
+                bat "npm test"
                 echo "Testing ..."
             }
         }
-        stage('Deploy') {
+        stage('Creating image') {
             steps {
-                echo 'Deploying....'
+                bat 'docker build -t jenkins-test .'
+                echo "Building Docker image"
             }
         }
     }
