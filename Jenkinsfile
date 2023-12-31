@@ -4,6 +4,9 @@ pipeline {
     }
     stages {
         stage('Build') {
+            environment {
+                HOME="."
+            }
             steps {
                 sh "npm install"
                 echo "Building ..."
